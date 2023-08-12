@@ -1,0 +1,55 @@
+<style>
+    .browse-topics {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .topics-header {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #0074D9;
+        padding-bottom: 5px;
+    }
+
+    .topics-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .topic-link {
+        margin-top: 10px;
+        text-decoration: none;
+        color: #0074D9;
+    }
+    .span {
+        background-color: yellow;
+        font-weight: bold;
+    }
+</style>
+
+</style>
+
+<div class='browse-topics'>
+    <h3 class='topics-header'>Browse Topics</h3>
+    <hr>
+    <div class='topics-list'>
+       
+        <div>
+            <li>
+            <a class='topic-link' href='{% url 'home' %}'>All   <span class="span">{{topics.count}}</span></a>
+        </li>
+        </div>
+        {% for topic in topics %}
+            <div>
+                <li>
+                <a class='topic-link' href='{% url 'home' %}?para={{topic.name}}'>{{topic.name}} <span class="span">{{topic.room_set.all.count}}</span></a>
+                </li>
+            </div>
+       
+            {% endfor %}
+    </div>
+</div>

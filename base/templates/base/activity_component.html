@@ -1,0 +1,76 @@
+<style>
+    .recent-activity {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-header {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #0074D9;
+        padding-bottom: 5px;
+    }
+
+    .activity-entry {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-user {
+        color: #0074D9;
+    }
+
+    .activity-room {
+        color: #888;
+    }
+
+    .activity-timestamp {
+        color: #555;
+    }
+
+    .delete-link {
+        font-size: .75rem;
+        color: #FF4136;
+        margin-left: 10px;
+        text-decoration: none;
+    }
+    .delete-link:hover {
+        text-decoration: underline;
+    }
+    .message-box {
+        background-color: #f5f5f5;
+        padding: 1px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 1px;
+    }
+</style>
+
+<div class='recent-activity'>
+    <h5 class='activity-header'>Recent Activity</h5>
+    <hr>
+    {% for messages in recent_messages %}
+        <div class='activity-entry'>
+            <small class='activity-user'><a href="{% url 'user-profile' messages.user.id %}">@{{messages.user}}</a></small>
+            <small class='activity-timestamp'>{{messages.created|timesince}} ago</small>
+            <small class='activity-room'><span style="color: blue;"><span style="color: orange;">replied in room</span> -- <a href="{% url 'room' messages.room.id %}">{{messages.room}} </a></span></small>
+            <div class="message-box">
+            <p>{{messages}}</p>
+            </div>
+            {% if request.user == messages.user %}
+            
+                <a class='delete-link' href="{% url 'delete-message' messages.id %}">Delete</a>
+            
+            {% endif %}
+            
+        </div>
+    {% endfor %}
+</div>

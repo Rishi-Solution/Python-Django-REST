@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #1b7eac;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        input[type='text'] {
+            padding: 5px;
+            width: 300px;
+        }
+
+        h5 {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .user-links {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        hr {
+            margin-top: 20px;
+        }
+        .user-greeting {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #333;
+        }
+        .header-logo {
+            width: 50px; /* Adjust the width as needed */
+            height: 50px; /* Adjust the height to match the width */
+            border-radius: 50%; /* Make the image rounded */
+            position: absolute;
+            top: 10px; /* Adjust the top position */
+            left: 10px; /* Adjust the right position */
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'home' %}">
+            <img src="{% static 'base/images/john.jpg' %}" class="header-logo" alt="Study logo"/>
+            <h1>Study Discord</h1>
+        </a>
+    </header>
+    <form method='GET' action={% url 'home' %}>
+        <input type='text' name='para' placeholder='Search..'/>
+    </form>
+    {% if request.user.is_authenticated %}
+        <div class="user-greeting">
+        <h4>Hello, {{request.user}}</h4>
+        </div>
+        <div class="user-greeting">
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+        </div>
+    {% else %}
+        <div class="user-greeting">
+            <a href="{% url 'login' %}">
+                <img src="{% static 'base/images/avatar.svg' %}"/>
+                <p>Login</p>
+            </a>
+        </div>
+    {% endif %}
+    <hr>
+</body>
+</html>

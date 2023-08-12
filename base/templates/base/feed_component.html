@@ -1,0 +1,69 @@
+<style>
+    .room-list {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .room-link {
+        text-decoration: none;
+        color: #0074D9;
+    }
+
+    .room-details {
+        margin-top: 10px;
+    }
+
+    
+    .delete-link {
+     
+        margin-left: 10px;
+        text-decoration: none;
+        color: #FF4136;
+    }
+
+    .host-link {
+        margin-top: 5px;
+        text-decoration: none;
+        color: #555;
+    }
+
+    .topic-name {
+        margin-top: 5px;
+        color: #888;
+    }
+
+    .separator {
+        margin-top: 10px;
+        border-top: 1px solid #ccc;
+    }
+    .timesince {
+        font-size: 0.8rem;
+        color: #888;
+        margin-left: auto;
+        
+    }
+</style>
+
+<div class='room-list'>
+
+    
+    {% for room in rooms %}
+        <div class='room-details'>
+            <a href="{% url 'user-profile' room.host.id %}">@{{room.host.username}} </a> <small class="timesince"> {{room.created|timesince}} ago</small>
+            {% if request.user == room.host %}
+                <a class='delete-link' href="{% url 'check' room.id %}">Edit</a>
+                <a class='delete-link' href='{% url 'delete-room' room.id %}'>DELETE</a>
+            {% endif %}
+           
+            <ul>
+                <li><a class='room-link' href="{% url 'room' room.id %}">{{room.name}}</a></li>
+            </ul>
+            <h5 class='topic-name'>@{{room.topic.name}}</h5>
+            <h5>Participants joined = <a href="{% url 'room' room.id %}">{{room.participants.all.count}}</a></h5>
+        </div>
+        <div class='separator'></div>
+    {% endfor %}
+</div>

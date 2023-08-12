@@ -1,0 +1,105 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    .room-container {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 20px; /* Added gap for spacing between columns */
+        margin: 20px; /* Added margin for spacing around the container */
+    }
+
+    .room-details {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-wrapper {
+        margin-top: 20px;
+    }
+
+    .comment-wrapper h3 {
+        margin-bottom: 10px;
+    }
+
+    .comment {
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment small {
+        color: #888;
+    }
+
+    .comment-form {
+        margin-top: 20px;
+    }
+
+    .comment-form input[type='text'] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .participants {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .participants h3 {
+        margin-bottom: 10px;
+    }
+
+    .participant {
+        margin-top: 10px;
+    }
+</style>
+
+<div class='room-container'>
+    <div class='room-details'>
+        <h1>{{room.name}}</h1>
+        <p>{{room.discription}}</p>
+
+        <div class='comment-wrapper'>
+            <h3>Conversations hosted by @<a href="{% url 'user-profile' room.host.id %}">{{room.host}}</a></h3>
+            <h3>Topic- {{room.topic.name}}</h3>
+            <hr>
+            {% for message in messages_room %}
+                <div class='comment'>
+                    {% if request.user == message.user %}
+                        <a href="{% url 'delete-message' message.id %}">Delete</a>
+                    {% endif %}
+                    <small>@{{message.user}}  {{message.created|timesince}} ago</small>
+                    <p>{{message.body}}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if request.user.is_authenticated %}
+            <div class='comment-form'>
+                <form method='POST' action="">
+                    {% csrf_token %}
+                    <input type='text' name='body' placeholder='Write your messages here....'/>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class='participants'>
+        <h3>Participants <span style="color: blue;" >{{participants.count}} joined</span></h3>
+        <hr>
+        {% for participant in participants %}
+            <div class='participant'>
+               <a href="{% url 'user-profile' participant.id %}" > <h4>@{{participant.username}}</h4></a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

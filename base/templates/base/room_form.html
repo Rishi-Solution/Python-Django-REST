@@ -1,0 +1,9 @@
+{% extends 'main.html' %} {% block content %}
+<div><!-- action="" means it will send url of the same page it is on-->
+  <form method="POST" action="">
+    {% csrf_token %}
+    <p>{{form.as_p}}</p>
+    <input type="Submit" value="Submit" />
+  </form>
+</div>
+{% endblock %}

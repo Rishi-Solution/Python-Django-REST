@@ -1,0 +1,15 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<form method="POST" action="">
+    {% csrf_token %}
+    <p> Are you sure you want to delete "{{obj}}"?</p>
+    <!-- we always have access to request in every template and we can therefore tap into some of  its property like below showing that we access the previous link from which we are coming from-->
+    <a href="{{request.META.HTTP_REFERER}}">GO BACK</a>
+    <input type="submit" value="confirm"/>
+
+</form>
+
+{% endblock content %}
+
+
